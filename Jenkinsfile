@@ -1,29 +1,30 @@
  pipeline {
     agent any
-  
+
     stages {
         stage('Checkout') {
             steps {
-                // Checkout the code from the Git repository
+                // Checkout the code from the repository
                 checkout scm
             }
         }
 
-        stage('Build') {
-            steps {
-                // Build your code here
-                sh 'sudo docker build -t my-apache-server .'
-            }
-        }
-
-        stage('Publish to Port 82') {
+        stage('Build and Publish') {
             when {
-                // Only publish if the commit is made to the master branch
-                expression { currentBuild.changeSets.any { it.branch == 'origin/master' } }
+                anyOf {
+                    branch 'master'
+                    branch 'develop'
+                }
             }
             steps {
-                // Publish to port 82 (you may need additional commands here)
-                sh 'sudo docker run -d -p 82:80 my-apache-server'
+                script {
+                    if (env.BRANCH_NAME == 'master') {
+                        sh 'docker build -t my-apache-server .'
+                        sh 'docker run -d -p 82:80 my-apache-server'
+                    } else if (env.BRANCH_NAME == 'develop') {
+                        sh 'my-apache-server:develop'
+                    }
+                }
             }
         }
     }
