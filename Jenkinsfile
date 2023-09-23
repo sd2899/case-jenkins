@@ -12,7 +12,7 @@
         stage('Build') {
             steps {
                 // Build your code here
-                sh 'sudo docker build -t my-apache-server .'
+                sh 'docker build -t my-apache-server .'
             }
         }
 
