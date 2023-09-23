@@ -1,10 +1,5 @@
  pipeline {
-    agent {
-        docker {
-            image 'my-apache-server'
-            args '-p 82:80'
-        }
-    }
+    agent any
 
     stages {
         stage('Checkout') {
@@ -15,10 +10,6 @@
         }
 
         stage('Build') {
-            when {
-                // Only build if the commit is made to the master or develop branch
-                expression { currentBuild.changeSets.any { it.branch == 'origin/master' || it.branch == 'origin/develop' } }
-            }
             steps {
                 // Build your code here
                 sh 'sudo docker build -t my-apache-server .'
