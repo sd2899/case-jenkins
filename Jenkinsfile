@@ -1,10 +1,5 @@
  pipeline {
-    agent {
-        docker {
-            image 'my-apache-server'
-            args '-p 82:80'
-        }
-    }
+    agent any;
 
     stages {
         stage('Checkout') {
