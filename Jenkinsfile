@@ -21,7 +21,7 @@
             }
             steps {
                 // Build your code here
-                sh 'docker build -t my-apache-server .'
+                sh 'sudo docker build -t my-apache-server .'
             }
         }
 
@@ -32,7 +32,7 @@
             }
             steps {
                 // Publish to port 82 (you may need additional commands here)
-                sh 'docker run -d -p 82:80 my-apache-server'
+                sh 'sudo docker run -d -p 82:80 my-apache-server'
             }
         }
     }
