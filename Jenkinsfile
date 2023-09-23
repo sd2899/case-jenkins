@@ -10,11 +10,6 @@
         }
 
         stage('Build and Publish') {
-           when {
-                expression {
-                    currentBuild.branchIs('master') || currentBuild.branchIs('develop')
-                }
-            }
             steps {
                 script {
                     if (env.BRANCH_NAME == 'master') {
