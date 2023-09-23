@@ -10,10 +10,9 @@
         }
 
         stage('Build and Publish') {
-            when {
-                anyOf {
-                    branch 'master'
-                    branch 'develop'
+           when {
+                expression {
+                    currentBuild.branchIs('master') || currentBuild.branchIs('develop')
                 }
             }
             steps {
