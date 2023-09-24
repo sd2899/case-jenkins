@@ -8,7 +8,6 @@
                 checkout scm
             }
         }
-
         stage('Build and Run Docker Container') {
             agent { 
                 dockerfile true 
