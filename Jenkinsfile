@@ -16,10 +16,10 @@
             steps {
                 script {
                     if (env.BRANCH_NAME == 'master') {
-                        sh 'docker build . -t my-apache-server'
-                        sh 'docker run -itd -p 82:80 my-apache-server'
+                        sh 'docker build . -t masterapache'
+                        sh 'docker run -itd -p 82:80 masterapache'
                     } else if (env.BRANCH_NAME == 'develop') {
-                        sh 'docker build . -t my-apache-server:develop'
+                        sh 'docker build . -t developapache'
                     }
                 }
             }
