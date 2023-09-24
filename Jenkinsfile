@@ -1,4 +1,4 @@
-pipeline {
+  pipeline {
     agent any
 
     stages {
@@ -9,31 +9,32 @@ pipeline {
             }
         }
 
-        stage('Build and Run Docker Container') {
+        stage('Build') {
             agent { 
                 dockerfile true 
             }
-            steps {
-                script {
-                    def dockerImageName = 'my-apache-server'
-                    def dockerRunCommand
-
-                    if (env.BRANCH_NAME == 'master') {
-                        // Build the Docker image for the 'master' branch
-                        sh "docker build -t $dockerImageName ."
-                        dockerRunCommand = "docker run -d -p 82:80 $dockerImageName"
-                    } else if (env.BRANCH_NAME == 'develop') {
-                        // Build the Docker image for the 'develop' branch
-                        sh "docker build -t $dockerImageName:develop ."
-                    } else {
-                        error("Unsupported branch: ${env.BRANCH_NAME}")
-                    }
-
-                    // Run the Docker container
-                    sh dockerRunCommand
+            steps { 
+            	if (env.BRANCH_NAME == 'master') {
+            		sh 'docker build -t my-apache-server .'
+                       sh 'docker run -d -p 82:80 my-apache-server'
+                } 
+                else if (env.BRANCH_NAME == 'develop') {
+                	sh 'my-apache-server:develop'
                 }
             }
         }
+        stage('Publish') {
+            agent { 
+                dockerfile true 
+            }
+            steps { 
+            	if (env.BRANCH_NAME == 'master') {
+                       sh 'docker run -d -p 82:80 my-apache-server'
+                } 
+                else if (env.BRANCH_NAME == 'develop') {
+                	sh 'my-apache-server:develop'
+                }
+            }
+       }
     }
 }
-
