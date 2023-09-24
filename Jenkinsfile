@@ -8,28 +8,19 @@
                 checkout scm
             }
         }
-        stage('Build and Run Docker Container') {
+
+        stage('Build and Publish') {
             agent { 
                 dockerfile true 
             }
             steps {
                 script {
-                    def dockerImageName = 'my-apache-server'
-                    def dockerRunCommand
-
                     if (env.BRANCH_NAME == 'master') {
-                        // Build the Docker image for the 'master' branch
-                        sh "docker build -t $dockerImageName ."
-                        dockerRunCommand = "docker run -itd -p 82:80 $dockerImageName"
+                        sh 'docker build -t my-apache-server .'
+                        sh 'docker run -itd -p 82:80 my-apache-server'
                     } else if (env.BRANCH_NAME == 'develop') {
-                        // Build the Docker image for the 'develop' branch
-                        sh "docker build -t $dockerImageName:develop ."
-                    } else {
-                        error("Unsupported branch: ${env.BRANCH_NAME}")
+                        sh 'docker build -t my-apache-server:develop .'
                     }
-
-                    // Run the Docker container
-                    sh dockerRunCommand
                 }
             }
         }
