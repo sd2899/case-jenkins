@@ -15,13 +15,11 @@
             }
             steps {
                 script {
-                    if (env.BRANCH_NAME == 'master') {
+                  
                         sh 'docker rm -f $(docker ps -a -q)'
                         sh 'docker build . -t masterapache'
                         sh 'docker run -itd --name AS5 -p 82:80 masterapache'
-                    } else if (env.BRANCH_NAME == 'develop') {
-                        sh 'docker build . -t developapache'
-                    }
+
                 }
              
             }
