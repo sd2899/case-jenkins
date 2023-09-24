@@ -22,6 +22,8 @@
                         sh 'docker run -it -d --name c1 -p 82:80 $id'
                     }
                     else if (env.BRANCH_NAME == 'develop') {
+                        b= env.BRANCH_NAME
+                        echo $b
                         sh 'docker build . -t developapache'
                         exit
                     }
