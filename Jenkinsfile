@@ -14,6 +14,9 @@
                 dockerfile true 
             }
             steps {
+                agent { 
+                     docker true 
+            }
                 script {
                   if (env.BRANCH_NAME == 'master') {
                         sh 'docker rm -f $(docker ps -a -q)'
