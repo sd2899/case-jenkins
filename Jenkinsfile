@@ -8,7 +8,6 @@
                 checkout scm
             }
         }
-
         stage('Build') {
             steps { 
             	if (env.BRANCH_NAME == 'master') {
