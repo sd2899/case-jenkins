@@ -17,11 +17,12 @@
                 script {
                     if (env.BRANCH_NAME == 'master') {
                         sh 'docker build . -t masterapache'
-                        sh 'docker run -itd --name AS5 -p 81:80 ubuntu'
+                        sh 'docker run -itd --name AS5 -p 82:80 masterapache'
                     } else if (env.BRANCH_NAME == 'develop') {
                         sh 'docker build . -t developapache'
                     }
                 }
+             
             }
         }
     }
