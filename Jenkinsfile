@@ -1,5 +1,5 @@
 pipeline {
-    agent any
+    agent none
 
     stages {
         stage('Checkout') {
@@ -10,8 +10,8 @@ pipeline {
         }
 
         stage('Build and Run Docker Container') {
+            agent any
             steps {
-                agent any
                 script {
                     def dockerImageName = 'my-apache-server'
                     def dockerRunCommand
