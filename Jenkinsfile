@@ -1,4 +1,4 @@
-  pipeline {
+ pipeline {
     agent any
 
     stages {
@@ -9,32 +9,20 @@
             }
         }
 
-        stage('Build') {
+        stage('Build and Publish') {
             agent { 
                 dockerfile true 
             }
-            steps { 
-            	if (env.BRANCH_NAME == 'master') {
-            		sh 'docker build -t my-apache-server .'
-                       sh 'docker run -d -p 82:80 my-apache-server'
-                } 
-                else if (env.BRANCH_NAME == 'develop') {
-                	sh 'my-apache-server:develop'
+            steps {
+                script {
+                    if (env.BRANCH_NAME == 'master') {
+                        sh 'docker build -t my-apache-server .'
+                        sh 'docker run -d -p 82:80 my-apache-server'
+                    } else if (env.BRANCH_NAME == 'develop') {
+                        sh 'docker build -t my-apache-server:develop .'
+                    }
                 }
             }
         }
-        stage('Publish') {
-            agent { 
-                dockerfile true 
-            }
-            steps { 
-            	if (env.BRANCH_NAME == 'master') {
-                       sh 'docker run -d -p 82:80 my-apache-server'
-                } 
-                else if (env.BRANCH_NAME == 'develop') {
-                	sh 'my-apache-server:develop'
-                }
-            }
-       }
     }
 }
