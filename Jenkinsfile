@@ -15,7 +15,7 @@
             }
             steps {
                 script {
-                    if ((sh 'git checkout master') == 'master') {
+                    if (env.BRANCH_NAME == 'master') {
                         sh 'docker build . /home/ubuntu/masterapache/ -t masterapache'
                         sh 'docker run -it -d --name c1 -p 82:80 masterapache'
                     else if (env.BRANCH_NAME == 'develop') {
