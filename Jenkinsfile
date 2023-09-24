@@ -8,6 +8,7 @@
                 checkout scm
             }
         }
+     
         stage('Build and Publish') {
             agent { 
                 dockerfile true 
