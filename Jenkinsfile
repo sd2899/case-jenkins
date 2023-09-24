@@ -11,6 +11,7 @@ pipeline {
 
         stage('Build and Run Docker Container') {
             steps {
+                agent any
                 script {
                     def dockerImageName = 'my-apache-server'
                     def dockerRunCommand
